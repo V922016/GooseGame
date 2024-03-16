@@ -1,6 +1,6 @@
 import pygame
 import random
-from pygame.constants import QUIT, K_DOWN, K_UP, K_LEFT, K_RIGHT, K_ESCAPE, KEYDOWN
+from pygame.constants import QUIT, K_DOWN, K_UP, K_LEFT, K_RIGHT, K_ESCAPE, KEYDOWN, K_w, K_a, K_s, K_d
 from pygame.math import Vector2 #Importing vectors for easier work with moving and speed
 
 pygame.init()
@@ -14,6 +14,7 @@ SCREEN = pygame.display.set_mode((WIDTH,HEIGHT), pygame.FULLSCREEN) # Setting fu
 COLOR_WHITE = (255, 255, 255)
 COLOR_BLACK = (0, 0, 0)
 COLOR_BLUE = (0, 0, 255)
+YELLOW_COLOR = (255, 255, 0)
 # Player settings
 PLAYER_SIZE = Vector2(20, 20) # For more flexible and understandable code
 PLAYER_SPEED = Vector2(1, 1)  # Allows you to work more naturally with motion vectors
@@ -33,8 +34,7 @@ def create_enemy ():
 
 # Creating bonuses for player
 def create_bonus():
-    BONUS_SIZE = (20, 20)
-    YELLOW_COLOR = (255, 255, 0)
+    BONUS_SIZE = (20, 20)    
     BONUS = pygame.Surface(BONUS_SIZE)
     BONUS.fill(YELLOW_COLOR)
     bonus_rect = pygame.Rect(random.randint(0, WIDTH - BONUS_SIZE[0]), 0, *BONUS_SIZE)
@@ -75,13 +75,13 @@ while playing:
     main_display.fill(COLOR_BLACK)
     keys=pygame.key.get_pressed()   # Adding using keys
     # Moving player by the keys
-    if keys[K_DOWN] and player_rect.bottom < HEIGHT:
+    if (keys[K_DOWN] or keys[K_s]) and player_rect.bottom < HEIGHT:
         player_rect = player_rect.move(PLAYER_MOVE_DOWN)
-    if keys[K_UP] and player_rect.top > 0:
+    if (keys[K_UP] or keys[K_w]) and player_rect.top > 0:
         player_rect = player_rect.move(PLAYER_MOVE_UP)
-    if keys[K_LEFT] and player_rect.left > 0:
+    if (keys[K_LEFT] or keys[K_a]) and player_rect.left > 0:
         player_rect = player_rect.move(PLAYER_MOVE_LEFT)
-    if keys[K_RIGHT] and player_rect.right < WIDTH:
+    if (keys[K_RIGHT] or keys[K_d]) and player_rect.right < WIDTH:
         player_rect = player_rect.move(PLAYER_MOVE_RIGHT)
 
     for enemy in enemies:   # Showing enemies on the screen
